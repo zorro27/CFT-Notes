@@ -11,44 +11,28 @@ import SnapKit
 class NotesViewController: UIViewController {
     let image = UIImageView()
     let table = UITableView()
-
-
+    let button = UIButton(type: .system)
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         table.delegate = self
         table.dataSource = self
-        settingImageView()
-        settingTableView()
+        createImage(image: image, view: view).create()
+        createTable(table: table, image: image, view: view).create()
+        createAddButton(button: button, view: view, table: table).create()
     }
 }
 
 extension NotesViewController: UITableViewDelegate, UITableViewDataSource {
-    func settingImageView(){
-        image.image = UIImage(named: "logo")
-        image.contentMode = .scaleAspectFill
-        view.addSubview(image)
-        image.snp.makeConstraints { make in
-            make.right.left.equalToSuperview().inset(30)
-            make.top.equalToSuperview().inset(view.frame.height/10)
-        }
-    }
-    
-    func settingTableView(){
-        view.addSubview(table)
-        table.snp.makeConstraints { make in
-            make.top.equalTo(image).inset(view.frame.height/10)
-            make.right.left.bottom.equalToSuperview().inset(10)
-        }
-    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 10
-      }
-      
-      func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-          let cell = UITableViewCell()
-          cell.textLabel?.text = "good morning"
-          return cell
-      }
-
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell()
+        cell.textLabel?.text = "good morning"
+        return cell
+    }
 }
