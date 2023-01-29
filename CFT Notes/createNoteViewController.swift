@@ -8,7 +8,7 @@
 import UIKit
 
 protocol createNoteVCDelegate: AnyObject {
-    func didEnterText(text: String?)
+    func didEnterText(text: String?, number: Int)
 }
 
 class createNoteViewController: UIViewController{
@@ -31,8 +31,12 @@ class createNoteViewController: UIViewController{
     }
     
     @objc func didTapButton() {
-        delegate?.didEnterText(text: textView.text)
-        dismiss(animated: true)
+        if textView.text.isEmpty {
+            dismiss(animated: true)
+        } else {
+            delegate?.didEnterText(text: textView.text, number: numberNotes!)
+            dismiss(animated: true)
+        }
     }
 }
 

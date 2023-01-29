@@ -13,6 +13,8 @@ class NotesViewController: UIViewController {
     let table = UITableView()
     let button = UIButton(type: .system)
     var noteArray: [String] = []
+    var a = 0
+    
     let textNote = """
     Почему я хочу пройти стажировку в ЦФТ:
     1. Большая современная компания с крутыми спецами от которых можно перенять опыт;
@@ -30,14 +32,14 @@ class NotesViewController: UIViewController {
         createImage(image: image, view: view).create()
         createTable(table: table, image: image, view: view).create()
         createAddButton(button: button, view: view, table: table).create()
+        
+        if let value = UserDefaults.standard.array(forKey: "notes") as? [String] {
+            noteArray = value
+        }
     }
 }
 
 extension NotesViewController: UITableViewDelegate, UITableViewDataSource, createNoteVCDelegate {
-    func didEnterText(text: String?) {
-        noteArray.append(text!)
-        table.reloadData()
-    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return noteArray.count
@@ -50,6 +52,17 @@ extension NotesViewController: UITableViewDelegate, UITableViewDataSource, creat
         return cell
     }
     
+    func didEnterText(text: String?, number: Int) {
+        if a == 0 {
+        noteArray.insert(text!, at: number)
+        } else {
+        noteArray.insert(text!, at: number)
+            noteArray.remove(at: number + 1)
+        }
+        UserDefaults.standard.set(noteArray, forKey: "notes")
+        table.reloadData()
+    }
+    
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
@@ -57,24 +70,27 @@ extension NotesViewController: UITableViewDelegate, UITableViewDataSource, creat
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if (editingStyle == .delete) {
             noteArray.remove(at: indexPath.row)
+            UserDefaults.standard.set(noteArray, forKey: "notes")
             table.reloadData()
         }
     }
     
     func tapButton() {
+        a = 0
         button.addTarget(self, action: #selector(addNote), for: .touchUpInside)
     }
     
     @objc func addNote() {
-        openVCNote(text: nil)
+        openVCNote(text: nil, num: nil)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        openVCNote(text: noteArray[indexPath.row])
+        a = 1
+        openVCNote(text: noteArray[indexPath.row], num: indexPath.row)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    func openVCNote(text: String?) {
+    func openVCNote(text: String?, num: Int?) {
         let vc = createNoteViewController()
         vc.delegate = self
         if let sheet = vc.sheetPresentationController{
@@ -82,8 +98,10 @@ extension NotesViewController: UITableViewDelegate, UITableViewDataSource, creat
             sheet.preferredCornerRadius = 20
             if text == nil {
                 vc.textNote = ""
+                vc.numberNotes = noteArray.count
             } else {
                 vc.textNote = text ?? "Ошибка передачи значения"
+                vc.numberNotes = num
             }
             present(vc, animated: true)
         }
