@@ -30,8 +30,8 @@ struct createTable {
     func create() {
         view.addSubview(table)
         table.snp.makeConstraints { make in
-            make.top.equalTo(image).inset(view.frame.height/10)
-            make.right.left.bottom.equalToSuperview().inset(10)
+            make.top.equalToSuperview().inset(150)
+            make.right.left.bottom.equalToSuperview().inset(20)
             make.bottom.equalToSuperview().inset(100)
         }
     }
@@ -64,7 +64,7 @@ struct createTextView{
         textView.font = .systemFont(ofSize: 18)
         view.addSubview(textView)
         textView.snp.makeConstraints { make in
-            make.left.right.equalToSuperview().inset(50)
+            make.left.right.equalToSuperview().inset(30)
             make.top.equalToSuperview().inset(60)
             make.height.equalTo(120)
         }
@@ -97,7 +97,7 @@ struct createButton {
         button.layer.cornerRadius = 10
         view.addSubview(button)
         button.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().inset(50)
+            make.top.equalToSuperview().inset(230)
             make.centerX.equalToSuperview()
             make.width.equalTo(200)
             make.height.equalTo(40)
