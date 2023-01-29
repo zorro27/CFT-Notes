@@ -7,18 +7,18 @@
 
 import UIKit
 
-protocol createNoteVCDelegate: AnyObject {
+protocol СreateNoteVCDelegate: AnyObject {
     func didEnterText(text: String?, number: Int)
 }
 
-class createNoteViewController: UIViewController{
+class СreateNoteViewController: UIViewController{
     let textView = UITextView()
     let image = UIImageView()
     let label = UILabel()
     let button = UIButton(type: .system)
     var textNote = ""
     var numberNotes: Int? = nil
-    weak var delegate: createNoteVCDelegate?
+    weak var delegate: СreateNoteVCDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
