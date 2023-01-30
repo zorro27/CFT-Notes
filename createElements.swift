@@ -66,7 +66,7 @@ struct createTextView{
         textView.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(30)
             make.top.equalToSuperview().inset(60)
-            make.height.equalTo(120)
+            make.height.equalTo(220)
         }
     }
 }
@@ -97,7 +97,7 @@ struct createButton {
         button.layer.cornerRadius = 10
         view.addSubview(button)
         button.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(230)
+            make.bottom.equalTo(textView).inset(-60)
             make.centerX.equalToSuperview()
             make.width.equalTo(200)
             make.height.equalTo(40)
